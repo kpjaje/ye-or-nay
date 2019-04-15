@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <!-- Register service worker if supported. -->
+  <!--
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js');
+    }
+  </script>
+  -->
+  
+  <!-- Load polyfills -->
+  <script
+    src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"
+    src="node_modules/@polymer/iron-icon/iron-icon.js"
+    src="node_modules/@polymer/iron-icons/iron-icons.js"
+    defer>
+  </script> 
+
+  <!-- Load components via WebComponents.waitFor -->
+  <script type="module">
+    window.WebComponents = window.WebComponents || { 
+      waitFor(cb){ addEventListener('WebComponentsReady', cb) }
+    } 
+    WebComponents.waitFor(async () => {
+      import('./node_modules/@polymer/iron-icon/iron-icon.js');
+      import('./node_modules/@polymer/iron-icons/iron-icons.js');
+      import('./src/app-styles.js');
+      import('./src/start-lit-element.js');
+      import('./src/kris-element.js');
+      import('./src/board-element.js');
+      import('./src/header-element.js');
+      import('./src/tile-element.js');
+      import('./src/footer-element.js');
+
+
+
+
+    });
+  </script>
+  
+  <!-- Change stuff here for your app -->
+  <meta name="description" content="start-lit-element">
+  <meta name="theme-color" content="#ffffff">
+  <title>start-lit-element</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="shortcut icon" href="/manifest/favicon.ico">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8">
+</head>
+<body style="margin: 0px">
+
+  <!-- 
+    To configure starting state of the checkbox from markup: 
+    <start-lit-element pie="true"> 
+  -->
+  <board-element>
+    <p id="myBoard"></p>
+    <script type="text/javascript">
+      document.getElementById('myBoard').innerHTML='Loading...';
+    </script>
+    <noscript>
+      Could not render the custom element. Check that JavaScript is enabled.
+    </noscript>
+  </board-element>
+</body>
