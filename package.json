@@ -1,7 +1,7 @@
 {
-  "name": "start-lit-element",
+  "name": "ye-or-nay",
   "version": "1.0.0",
-  "description": "start-lit-element",
+  "description": "ye-or-nay",
   "repository": "https://github.com/PolymerLabs/start-lit-element.git",
   "main": "start-lit-element.js",
   "scripts": {
