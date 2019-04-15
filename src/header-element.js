@@ -21,6 +21,7 @@ export class HeaderElement extends LitElement {
             header: {type:Object},
             body:{type:Object},
             footer: {type:Object},
+            displayMenu:{type:Boolean}
         };
     }
 
@@ -32,10 +33,22 @@ export class HeaderElement extends LitElement {
         super();
 
         // Initialize properties
-        this.header={
-            name:'Header',
-            actions:['New User','Menu']
-        }
+            this.header={
+                name:'Header',
+                actions:['New User','Menu']
+            },
+            this.displayMenu=false;
+    }
+
+    openSidebar(){
+        console.log('openSidebar');
+        this.displayMenu=true;
+        let headerEvent = new CustomEvent('header-event',{
+            detail:{
+                displayMenu:this.displayMenu
+            }
+        });
+        this.dispatchEvent(headerEvent);
     }
 
     /**
@@ -52,12 +65,11 @@ export class HeaderElement extends LitElement {
         :host([hidden]) { display: none; }
         </style>
 
-        <div>
             <header class="w3-top w3-bar w3-theme">
-              <button class="w3-bar-item w3-button w3-xxxlarge w3-hover-theme" onclick="openSidebar()">&#9776;</button>
+              <button class="w3-bar-item w3-button w3-xxxlarge w3-hover-theme" @click="${this.openSidebar}">&#9776;</button>
               <h1 class="w3-bar-item">${this.header.name}</h1>
             </header>
-       </div>
+
 
 
     `;

@@ -21,6 +21,7 @@ export class BoardElement extends LitElement {
             header: {type:Object},
             body:{type:Object},
             footer: {type:Object},
+            displayMenu:{type:Boolean}
         };
     }
 
@@ -42,11 +43,18 @@ export class BoardElement extends LitElement {
         },
         this.content={
             topicList:[{title:'Movies',comments:'This Is cool'},{title:'Politics',comments:'I hate Trump'},{title:'Art',comments:'This is not for me'},{title:'Movies',comments:'This Is cool'},{title:'Politics',comments:'I hate Trump'},{title:'Art',comments:'This is not for me'}]
-        }
+        },
         this.testKris={
             title:'Movies',comments:'This Is cool'
-        }
+        },
+            this.displayMenu=false;
     }
+
+    menuChange(e){
+        console.dir(e);
+        this.displayMenu=e.detail.displayMenu;
+    }
+
 
     /**
 
@@ -56,23 +64,43 @@ export class BoardElement extends LitElement {
      */
     render() {
         return html`
+        <link rel="stylesheet" href="./src/css/social.css">
       <style>
         :host { display: block; }
         :host([hidden]) { display: none; }
       </style>
-       <header>
-            <header-element>
-              <p id="headerLoader"></p>
-              <script type="text/javascript">
+
+
+
+
+
+      <div>
+        <header-element @header-event="${this.menuChange}" displayMenu="${this.displayMenu}">
+         <p id="headerLoader"></p>
+           <script type="text/javascript">
                 document.getElementById('headerLoader').innerHTML='Loading...';
+           </script>
+         <noscript>
+              Could not render the custom element. Check that JavaScript is enabled.
+         </noscript>
+
+        </header-element>
+      </div>
+
+
+      <menu-element  displayMenu="${this.displayMenu}" @menu-event="${this.menuChange}">
+            <p id="menuLoader"></p>
+              <script type="text/javascript">
+                document.getElementById('menuLoader').innerHTML='Loading...';
               </script>
             <noscript>
                 Could not render the custom element. Check that JavaScript is enabled.
             </noscript>
-          </header-element>
-      </header>
-      <div class="w3-container" style="margin-top:90px;margin-bottom:70px ">
+      </menu-element>
+      <div class="w3-container">
+        <div class="w3-cell-row" style="height: 84px"></div>
       ${this.content.topicList ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>  html`<tile-element tileComments="${i.comments}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
+      <div class="w3-cell-row" style="height: 32px"></div>
       </div>
       <footer-element>
             <p id="footerLoader"></p>

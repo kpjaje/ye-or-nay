@@ -11,16 +11,15 @@
 // Import LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
 
-export class TileElement extends LitElement {
+export class MenuElement extends LitElement {
     /**
      * Define properties. Properties defined here will be automatically
      * observed.
      */
     static get properties() {
         return {
-            tileTitle: {type:String},
-            tileComments:{type:String},
-            testObject:{type:Object},
+            menuList: {type:Array},
+            displayMenu:{type:Boolean}
         };
     }
 
@@ -32,11 +31,19 @@ export class TileElement extends LitElement {
         super();
 
         // Initialize properties
-        this.testObject={title:'',comments:''};
-        this.tileTitle='';
-        this.tileComments='';
+        this.menuList=[];
+        this.displayMenu=false;
+    }
 
-
+    closeSidebar(){
+        console.log('closeSidebar');
+        this.displayMenu=false;
+        let menuEvent = new CustomEvent('menu-event',{
+            detail:{
+                displayMenu:this.displayMenu
+            }
+        });
+        this.dispatchEvent(menuEvent);
     }
 
     /**
@@ -52,25 +59,21 @@ export class TileElement extends LitElement {
         :host { display: block; }
         :host([hidden]) { display: none; }
         </style>
-
-        <div class="w3-cell-row">
-          <div class="w3-cell" style="width:30%">
-            <img class="w3-circle" src="manifest/img_avatar${this.tileTitle}.jpg" style="width:100%">
-            <div>
-                <div style="text-align: center;padding-top: 5px">
-                    <iron-icon style="color: royalblue;" icon="icons:thumb-up"></iron-icon>
-                    <iron-icon style="color: maroon;" icon="icons:thumb-down"></iron-icon>
-                </div>
-
+        <div style="display: ${this.displayMenu === false ? 'none' : 'block'};z-index: 2">
+            <nav class="w3-sidebar w3-bar-block w3-card" id="mySidebar">
+            <div class="w3-container w3-theme-d2">
+              <span @click="${this.closeSidebar}" class="w3-button w3-display-topright w3-large">X</span>
+              <br>
+              <div class="w3-padding w3-center">
+                <img class="w3-circle" src="manifest/userAvatar.jpg" alt="avatar" style="width:75%">
+              </div>
             </div>
-          </div>
-          <div class="w3-cell w3-container">
-            <h3>${this.tileTitle}</h3>
-            <p>${this.tileComments}</p>
-            <p>${this.testObject.title}</p>
-          </div>
+            <a class="w3-bar-item w3-button" href="#">Movies</a>
+            <a class="w3-bar-item w3-button" href="#">Friends</a>
+            <a class="w3-bar-item w3-button" href="#">Messages</a>
+            </nav>
         </div>
-        <hr>
+
 
 
 
@@ -78,4 +81,4 @@ export class TileElement extends LitElement {
     }
 }
 // Register the element with the browser
-customElements.define('tile-element', TileElement);
+customElements.define('menu-element', MenuElement);
