@@ -1,8 +1,5 @@
-# start-lit-element
+# ye-or-nay
 
-A simple Hello World for LitElement.
-
-https://start-lit-element.firebaseapp.com/
 
 * [Quick start](#quick-start)
 * [Detailed setup info](#detailed-setup-info)
@@ -12,7 +9,7 @@ https://start-lit-element.firebaseapp.com/
 
 ```
 npm install -g polymer-cli
-git clone https://github.com/PolymerLabs/start-lit-element
+git clone https://github.com/kpjaje/ye-or-nay
 cd start-lit-element
 npm install
 polymer serve
@@ -29,7 +26,7 @@ polymer serve
 ### Clone this repo
 
 ```
-git clone https://github.com/PolymerLabs/start-lit-element
+git clone https://github.com/kpjaje/ye-or-nay
 ```
 
 ### Start a dev server
