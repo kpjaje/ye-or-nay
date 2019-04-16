@@ -44,13 +44,41 @@ export class BoardElement extends LitElement {
         };
         this.content={
             category:'All',
-            topicList:[{title:'Movies',comments:'This Is cool'},{title:'Politics',comments:'I hate Trump'},{title:'Art',comments:'This is not for me'},{title:'Movies',comments:'This Is cool'},{title:'Politics',comments:'I hate Trump'},{title:'Art',comments:'This is not for me'}]
+            topicList:[
+                {id:0,title:'Movies',comments:'This Is cool',rating:1,like:'Y'},
+                {id:1,title:'Politics',comments:'I hate Trump 1',rating:2,like:'N'},
+                {id:2,title:'Art',comments:'This is not for me',rating:3,like:''},
+                {id:3,title:'Movies',comments:'This Is cool',rating:5,like:''},
+                {id:4,title:'Politics',comments:'I hate Trump',rating:4,like:'Y'},
+                {id:5,title:'Art',comments:'This is not for me',rating:2,like:''}
+            ]
         };
         this.testKris={
             title:'Movies',comments:'This Is cool'
         };
         this.displayMenu='none';
         this.menuList=JSON.stringify(['All','Movies','Politics','Art']);
+    }
+
+    tileChange(e){
+        if(e.detail.type==='like'){
+            let selectedTile=this.content.topicList.filter(tile => tile.id == e.detail.changedData.id);
+            /*if(selectedTile[0].like==='' && e.detail.changedData.data==='Y'){
+                selectedTile[0].rating+=1;
+            }
+            else if(selectedTile[0].like==='' && e.detail.changedData.data==='N'){
+                selectedTile[0].rating-=1;
+            }
+            else if(selectedTile[0].like==='Y' && (e.detail.changedData.data==='N' || e.detail.changedData.data==='')){
+                selectedTile[0].rating-=1;
+            }
+            else if(selectedTile[0].like==='N' && (e.detail.changedData.data==='Y' || e.detail.changedData.data==='')){
+                selectedTile[0].rating+=1;
+            }*/
+            selectedTile[0].rating=e.detail.changedData.rating;
+            selectedTile[0].like=e.detail.changedData.data;
+
+        }
     }
 
     menuChange(e){
@@ -62,6 +90,10 @@ export class BoardElement extends LitElement {
             this.content.category=e.detail.changedCategory;
         }
 
+    }
+
+    filterTiles(element, index, array){
+        return html``;
     }
 
 
@@ -108,9 +140,9 @@ export class BoardElement extends LitElement {
       </menu-element>
       <div class="w3-container">
         <div class="w3-cell-row" style="height: 84px"></div>
-      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
+      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element @tile-event="${this.tileChange}" like="${j.like}" tileRating="${j.rating}" tileId="${j.id}" tileData="${JSON.stringify(j)}" tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
 
-      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
+      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" @tile-event="${this.tileChange}" like="${i.like}" tileId="${i.id}" tileRating="${i.rating}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
       <div class="w3-cell-row" style="height: 32px"></div>
       </div>
       <footer-element>

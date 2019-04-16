@@ -20,7 +20,10 @@ export class TileElement extends LitElement {
         return {
             tileTitle: {type:String},
             tileComments:{type:String},
-            testObject:{type:Object},
+            like:{type:String},
+            tileData:{type:Object},
+            tileId:{type:Number},
+            tileRating:{type:Number}
         };
     }
 
@@ -32,11 +35,62 @@ export class TileElement extends LitElement {
         super();
 
         // Initialize properties
-        this.testObject={title:'',comments:''};
         this.tileTitle='';
         this.tileComments='';
+        this.tileData={};
+        this.like='';
 
 
+    }
+
+
+    changeTodontLike(){
+        if(this.like=='N'){
+            this.like='';
+            this.tileRating+=1;
+        }
+        else{
+            this.like='N';
+            this.tileRating-=1;
+        }
+        let changedData={
+            data:this.like,
+            id:this.tileId,
+            rating:this.tileRating
+        };
+        this.onTileDataChange('like',changedData);
+    }
+
+    changeToLike(){
+
+        if(this.like=='Y'){
+            this.like='';
+            this.tileRating-=1;
+        }
+        else{
+            this.like='Y';
+            this.tileRating+=1;
+        }
+        let changedData={
+            data:this.like,
+            id:this.tileId,
+            rating:this.tileRating
+        };
+
+        this.onTileDataChange('like',changedData);
+    }
+
+    onTileDataChange(type,changedData){
+
+
+        let tileEvent = new CustomEvent('tile-event',{
+
+            detail:{
+                type:type,
+                changedData:changedData
+            }
+        });
+        this.dispatchEvent(tileEvent);
     }
 
     /**
@@ -49,17 +103,21 @@ export class TileElement extends LitElement {
         return html`
         <link rel="stylesheet" href="./src/css/social.css">
         <style>
-        :host { display: block; }
+        :host {
+
+            display: block;
+        }
         :host([hidden]) { display: none; }
         </style>
 
-        <div class="w3-cell-row">
+        <div class="w3-cell-row" >
           <div class="w3-cell" style="width:30%">
             <img class="w3-circle" src="manifest/img_avatar${this.tileTitle}.jpg" style="width:100%">
             <div>
                 <div style="text-align: center;padding-top: 5px">
-                    <iron-icon style="color: royalblue;" icon="icons:thumb-up"></iron-icon>
-                    <iron-icon style="color: maroon;" icon="icons:thumb-down"></iron-icon>
+                    <iron-icon  @click="${this.changeToLike}" style="color: ${this.like==='Y'?'royalblue':''};" icon="icons:thumb-up"></iron-icon>
+                    <span>${this.tileRating}</span>
+                    <iron-icon  @click="${this.changeTodontLike}" style="color: ${this.like==='N'?'maroon':''};" icon="icons:thumb-down"></iron-icon>
                 </div>
 
             </div>
@@ -67,7 +125,6 @@ export class TileElement extends LitElement {
           <div class="w3-cell w3-container">
             <h3>${this.tileTitle}</h3>
             <p>${this.tileComments}</p>
-            <p>${this.testObject.title}</p>
           </div>
         </div>
         <hr>
