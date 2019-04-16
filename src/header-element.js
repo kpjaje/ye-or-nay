@@ -21,7 +21,7 @@ export class HeaderElement extends LitElement {
             header: {type:Object},
             body:{type:Object},
             footer: {type:Object},
-            displayMenu:{type:Boolean}
+            displayMenu:{type:String}
         };
     }
 
@@ -34,17 +34,18 @@ export class HeaderElement extends LitElement {
 
         // Initialize properties
             this.header={
-                name:'Header',
+                name:'Ye Or Nay',
                 actions:['New User','Menu']
-            },
+            };
             this.displayMenu=false;
     }
 
     openSidebar(){
         console.log('openSidebar');
-        this.displayMenu=true;
+        this.displayMenu='block';
         let headerEvent = new CustomEvent('header-event',{
             detail:{
+                type:'displayMenu',
                 displayMenu:this.displayMenu
             }
         });

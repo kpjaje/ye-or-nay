@@ -19,7 +19,8 @@ export class MenuElement extends LitElement {
     static get properties() {
         return {
             menuList: {type:Array},
-            displayMenu:{type:Boolean}
+            selectedCategory:{type:String},
+            displayMenu:{type:String}
         };
     }
 
@@ -31,16 +32,32 @@ export class MenuElement extends LitElement {
         super();
 
         // Initialize properties
-        this.menuList=[];
-        this.displayMenu=false;
+       // this.menuList=JSON.parse(this.attributes.menuList.value);
+        this.displayMenu='none';
+        this.selectedCategory='All';
     }
 
     closeSidebar(){
         console.log('closeSidebar');
-        this.displayMenu=false;
+        this.displayMenu='none';
         let menuEvent = new CustomEvent('menu-event',{
+
             detail:{
+                type:'displayMenu',
                 displayMenu:this.displayMenu
+            }
+        });
+        this.dispatchEvent(menuEvent);
+    }
+
+    changeCategory(e){
+        this.selectedCategory=e.target.innerText;
+
+        let menuEvent = new CustomEvent('menu-event',{
+
+            detail:{
+                type:'changedCategory',
+                changedCategory:this.selectedCategory
             }
         });
         this.dispatchEvent(menuEvent);
@@ -59,7 +76,7 @@ export class MenuElement extends LitElement {
         :host { display: block; }
         :host([hidden]) { display: none; }
         </style>
-        <div style="display: ${this.displayMenu === false ? 'none' : 'block'};z-index: 2">
+        <div style="display: ${this.displayMenu};z-index: 2">
             <nav class="w3-sidebar w3-bar-block w3-card" id="mySidebar">
             <div class="w3-container w3-theme-d2">
               <span @click="${this.closeSidebar}" class="w3-button w3-display-topright w3-large">X</span>
@@ -68,9 +85,9 @@ export class MenuElement extends LitElement {
                 <img class="w3-circle" src="manifest/userAvatar.jpg" alt="avatar" style="width:75%">
               </div>
             </div>
-            <a class="w3-bar-item w3-button" href="#">Movies</a>
-            <a class="w3-bar-item w3-button" href="#">Friends</a>
-            <a class="w3-bar-item w3-button" href="#">Messages</a>
+
+
+            ${this.menuList.length>0  ? this.menuList.map(i => html`<a class="w3-bar-item w3-button" href="#" @click="${this.changeCategory}">${i}</a>`)  : html``}
             </nav>
         </div>
 

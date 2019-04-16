@@ -21,7 +21,8 @@ export class BoardElement extends LitElement {
             header: {type:Object},
             body:{type:Object},
             footer: {type:Object},
-            displayMenu:{type:Boolean}
+            displayMenu:{type:Boolean},
+            menuList: {type:String}
         };
     }
 
@@ -36,23 +37,31 @@ export class BoardElement extends LitElement {
         this.header={
             name:'Header',
             actions:['New User','Menu']
-        },
+        };
         this.footer={
             name:'Footer',
             actions:['Search']
-        },
+        };
         this.content={
+            category:'All',
             topicList:[{title:'Movies',comments:'This Is cool'},{title:'Politics',comments:'I hate Trump'},{title:'Art',comments:'This is not for me'},{title:'Movies',comments:'This Is cool'},{title:'Politics',comments:'I hate Trump'},{title:'Art',comments:'This is not for me'}]
-        },
+        };
         this.testKris={
             title:'Movies',comments:'This Is cool'
-        },
-            this.displayMenu=false;
+        };
+        this.displayMenu='none';
+        this.menuList=JSON.stringify(['All','Movies','Politics','Art']);
     }
 
     menuChange(e){
         console.dir(e);
-        this.displayMenu=e.detail.displayMenu;
+        if(e.detail.type==='displayMenu'){
+            this.displayMenu=e.detail.displayMenu;
+        }
+        else if(e.detail.type==='changedCategory'){
+            this.content.category=e.detail.changedCategory;
+        }
+
     }
 
 
@@ -88,7 +97,7 @@ export class BoardElement extends LitElement {
       </div>
 
 
-      <menu-element  displayMenu="${this.displayMenu}" @menu-event="${this.menuChange}">
+      <menu-element menuList="${this.menuList}"  displayMenu="${this.displayMenu}" @menu-event="${this.menuChange}">
             <p id="menuLoader"></p>
               <script type="text/javascript">
                 document.getElementById('menuLoader').innerHTML='Loading...';
@@ -99,7 +108,9 @@ export class BoardElement extends LitElement {
       </menu-element>
       <div class="w3-container">
         <div class="w3-cell-row" style="height: 84px"></div>
-      ${this.content.topicList ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>  html`<tile-element tileComments="${i.comments}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
+      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
+
+      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
       <div class="w3-cell-row" style="height: 32px"></div>
       </div>
       <footer-element>
