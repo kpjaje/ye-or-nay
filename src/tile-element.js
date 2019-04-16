@@ -23,7 +23,8 @@ export class TileElement extends LitElement {
             like:{type:String},
             tileData:{type:Object},
             tileId:{type:Number},
-            tileRating:{type:Number}
+            tileRating:{type:Number},
+            tilePicture:{type:String}
         };
     }
 
@@ -39,6 +40,7 @@ export class TileElement extends LitElement {
         this.tileComments='';
         this.tileData={};
         this.like='';
+        this.tilePicture='';
 
 
     }
@@ -112,7 +114,7 @@ export class TileElement extends LitElement {
 
         <div class="w3-cell-row" >
           <div class="w3-cell" style="width:30%">
-            <img class="w3-circle" src="manifest/img_avatar${this.tileTitle}.jpg" style="width:100%">
+            <img class="w3-circle" src="${this.tilePicture}" style="width:100%">
             <div>
                 <div style="text-align: center;padding-top: 5px">
                     <iron-icon  @click="${this.changeToLike}" style="color: ${this.like==='Y'?'royalblue':''};" icon="icons:thumb-up"></iron-icon>
@@ -123,7 +125,7 @@ export class TileElement extends LitElement {
             </div>
           </div>
           <div class="w3-cell w3-container">
-            <h3>${this.tileTitle}</h3>
+            <h4>${this.tileTitle}</h4>
             <p>${this.tileComments}</p>
           </div>
         </div>

@@ -22,7 +22,9 @@ export class BoardElement extends LitElement {
             body:{type:Object},
             footer: {type:Object},
             displayMenu:{type:Boolean},
-            menuList: {type:String}
+            menuList: {type:String},
+            newTileFlag:{type:Boolean},
+            displayNewTile:{type:String}
         };
     }
 
@@ -34,6 +36,7 @@ export class BoardElement extends LitElement {
         super();
 
         // Initialize properties
+        this.newTileFlag=false;
         this.header={
             name:'Header',
             actions:['New User','Menu']
@@ -45,39 +48,33 @@ export class BoardElement extends LitElement {
         this.content={
             category:'All',
             topicList:[
-                {id:0,title:'Movies',comments:'This Is cool',rating:1,like:'Y'},
-                {id:1,title:'Politics',comments:'I hate Trump 1',rating:2,like:'N'},
-                {id:2,title:'Art',comments:'This is not for me',rating:3,like:''},
-                {id:3,title:'Movies',comments:'This Is cool',rating:5,like:''},
-                {id:4,title:'Politics',comments:'I hate Trump',rating:4,like:'Y'},
-                {id:5,title:'Art',comments:'This is not for me',rating:2,like:''}
+                {id:0,title:'Movies',comments:'This Is cool',details:'',rating:1,like:'Y',picture:'manifest/img_avatarMovies.jpg'},
+                {id:1,title:'Politics',comments:'I hate Trump 1',details:'',rating:2,like:'N',picture:'manifest/img_avatarPolitics.jpg'},
+                {id:2,title:'Art',comments:'This is not for me',details:'',rating:3,like:'',picture:'manifest/img_avatarArt.jpg'},
+                {id:3,title:'Movies',comments:'This Is cool',details:'',rating:5,like:'',picture:'manifest/img_avatarMovies.jpg'},
+                {id:4,title:'Politics',comments:'I hate Trump',details:'',rating:4,like:'Y',picture:'manifest/img_avatarPolitics.jpg'},
+                {id:5,title:'Art',comments:'This is not for me',details:'',rating:2,like:'',picture:'manifest/img_avatarArt.jpg'}
             ]
         };
         this.testKris={
             title:'Movies',comments:'This Is cool'
         };
         this.displayMenu='none';
+        this.displayNewTile='none';
         this.menuList=JSON.stringify(['All','Movies','Politics','Art']);
     }
 
     tileChange(e){
         if(e.detail.type==='like'){
             let selectedTile=this.content.topicList.filter(tile => tile.id == e.detail.changedData.id);
-            /*if(selectedTile[0].like==='' && e.detail.changedData.data==='Y'){
-                selectedTile[0].rating+=1;
-            }
-            else if(selectedTile[0].like==='' && e.detail.changedData.data==='N'){
-                selectedTile[0].rating-=1;
-            }
-            else if(selectedTile[0].like==='Y' && (e.detail.changedData.data==='N' || e.detail.changedData.data==='')){
-                selectedTile[0].rating-=1;
-            }
-            else if(selectedTile[0].like==='N' && (e.detail.changedData.data==='Y' || e.detail.changedData.data==='')){
-                selectedTile[0].rating+=1;
-            }*/
             selectedTile[0].rating=e.detail.changedData.rating;
             selectedTile[0].like=e.detail.changedData.data;
-
+        }
+        else if(e.detail.type==='newTile'){
+            e.detail.changedData.id=this.content.topicList.length;
+            this.content.topicList.push(e.detail.changedData);
+            this.displayNewTile='none';
+            this.newTileFlag=!this.newTileFlag;
         }
     }
 
@@ -88,6 +85,9 @@ export class BoardElement extends LitElement {
         }
         else if(e.detail.type==='changedCategory'){
             this.content.category=e.detail.changedCategory;
+        }
+        else if(e.detail.type==='displayNewTile'){
+            this.displayNewTile=e.detail.displayNewTile;
         }
 
     }
@@ -140,9 +140,12 @@ export class BoardElement extends LitElement {
       </menu-element>
       <div class="w3-container">
         <div class="w3-cell-row" style="height: 84px"></div>
-      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element @tile-event="${this.tileChange}" like="${j.like}" tileRating="${j.rating}" tileId="${j.id}" tileData="${JSON.stringify(j)}" tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
+        <div>
+        <new-tile-element displayNewTile="${this.displayNewTile}" @tile-event="${this.tileChange}"></new-tile-element>
+        </div>
+      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element @tile-event="${this.tileChange}" like="${j.like}" tileRating="${j.rating}" tilePicture="${j.picture}" tileId="${j.id}" tileData="${JSON.stringify(j)}" tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
 
-      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" @tile-event="${this.tileChange}" like="${i.like}" tileId="${i.id}" tileRating="${i.rating}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
+      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" @tile-event="${this.tileChange}" like="${i.like}" tileId="${i.id}" tileRating="${i.rating}" tilePicture="${i.picture}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
       <div class="w3-cell-row" style="height: 32px"></div>
       </div>
       <footer-element>

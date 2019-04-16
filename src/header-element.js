@@ -21,7 +21,9 @@ export class HeaderElement extends LitElement {
             header: {type:Object},
             body:{type:Object},
             footer: {type:Object},
-            displayMenu:{type:String}
+            displayMenu:{type:String},
+
+
         };
     }
 
@@ -38,6 +40,24 @@ export class HeaderElement extends LitElement {
                 actions:['New User','Menu']
             };
             this.displayMenu=false;
+            this.displayNewTileFlag='none';
+    }
+
+    displayNewTile(){
+       
+        if(this.displayNewTileFlag==='block'){
+            this.displayNewTileFlag='none';
+        }
+        else{
+            this.displayNewTileFlag='block';
+        }
+        let headerEvent = new CustomEvent('header-event',{
+            detail:{
+                type:'displayNewTile',
+                displayNewTile:this.displayNewTileFlag
+            }
+        });
+        this.dispatchEvent(headerEvent);
     }
 
     openSidebar(){
@@ -69,6 +89,10 @@ export class HeaderElement extends LitElement {
             <header class="w3-top w3-bar w3-theme">
               <button class="w3-bar-item w3-button w3-xxxlarge w3-hover-theme" @click="${this.openSidebar}">&#9776;</button>
               <h1 class="w3-bar-item">${this.header.name}</h1>
+              <div id="addStoryId" class="addStory">
+              <iron-icon @click="${this.displayNewTile}"  icon="icons:add-circle-outline"></iron-icon>
+              </div>
+
             </header>
 
 
