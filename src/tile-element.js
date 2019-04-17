@@ -24,7 +24,8 @@ export class TileElement extends LitElement {
             tileData:{type:Object},
             tileId:{type:Number},
             tileRating:{type:Number},
-            tilePicture:{type:String}
+            tilePicture:{type:String},
+            visibleDetails:{type:String}
         };
     }
 
@@ -41,6 +42,7 @@ export class TileElement extends LitElement {
         this.tileData={};
         this.like='';
         this.tilePicture='';
+        this.visibleDetails='none'
 
 
     }
@@ -95,6 +97,15 @@ export class TileElement extends LitElement {
         this.dispatchEvent(tileEvent);
     }
 
+    showDetails(){
+        if( this.visibleDetails==='none'){
+            this.visibleDetails='block'
+        }
+        else{
+            this.visibleDetails='none'
+        }
+    }
+
     /**
 
      /**
@@ -104,6 +115,7 @@ export class TileElement extends LitElement {
     render() {
         return html`
         <link rel="stylesheet" href="./src/css/social.css">
+        <link rel="stylesheet" href="./src/css/tile.css">
         <style>
         :host {
 
@@ -113,6 +125,12 @@ export class TileElement extends LitElement {
         </style>
 
         <div class="w3-cell-row" >
+        <div class="seeDetails">
+            ${this.visibleDetails==='none'? html`<iron-icon @click="${this.showDetails}"  icon="icons:visibility"></iron-icon>`: html``}
+            ${this.visibleDetails==='block'? html`<iron-icon @click="${this.showDetails}"  icon="icons:visibility-off"></iron-icon>`: html``}
+
+        </div>
+
           <div class="w3-cell" style="width:30%">
             <img class="w3-circle" src="${this.tilePicture}" style="width:100%">
             <div>
@@ -128,6 +146,9 @@ export class TileElement extends LitElement {
             <h4>${this.tileTitle}</h4>
             <p>${this.tileComments}</p>
           </div>
+        </div>
+        <div style="display: ${this.visibleDetails}" class="w3-cell-row" >
+         <tile-details></tile-details>
         </div>
         <hr>
 

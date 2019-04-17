@@ -11,16 +11,15 @@
 // Import LitElement base class and html helper function
 import { LitElement, html } from 'lit-element';
 
-export class FooterElement extends LitElement {
+export class TileDetails extends LitElement {
     /**
      * Define properties. Properties defined here will be automatically
      * observed.
      */
     static get properties() {
         return {
-            header: {type:Object},
-            body:{type:Object},
-            footer: {type:Object},
+            tileDetails: {type:String},
+            tileComments:{type:Array}
         };
     }
 
@@ -32,10 +31,7 @@ export class FooterElement extends LitElement {
         super();
 
         // Initialize properties
-        this.footer={
-            name:'Footer',
-            actions:['New User','Menu']
-        }
+
     }
 
     /**
@@ -46,23 +42,19 @@ export class FooterElement extends LitElement {
      */
     render() {
         return html`
-        <link rel="stylesheet" href="./src/css/social.css">
+        <link rel="stylesheet" href="./src/css/tileDetails.css">
         <style>
         :host { display: block; }
         :host([hidden]) { display: none; }
         </style>
 
-        <footer class="w3-container w3-bottom w3-theme w3-margin-top" style="text-align: center">
-            <h5>The Bug Slayers <iron-icon @click="${this.showDetails}"  icon="icons:bug-report"></iron-icon></h5>
-
-
-
-
-        </footer>
+        <div class="well">
+            Some Text
+        </div>
 
 
     `;
     }
 }
 // Register the element with the browser
-customElements.define('footer-element', FooterElement);
+customElements.define('tile-details', TileDetails);
