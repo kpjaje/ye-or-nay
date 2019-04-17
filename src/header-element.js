@@ -36,7 +36,7 @@ export class HeaderElement extends LitElement {
 
         // Initialize properties
             this.header={
-                name:'Ye Or Nay',
+                name:'Yea Or Nay',
                 actions:['New User','Menu']
             };
             this.displayMenu=false;
