@@ -43,8 +43,10 @@ export class HeaderElement extends LitElement {
             this.displayNewTileFlag='none';
     }
 
+
+
     displayNewTile(){
-       
+
         if(this.displayNewTileFlag==='block'){
             this.displayNewTileFlag='none';
         }

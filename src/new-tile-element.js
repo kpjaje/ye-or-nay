@@ -43,6 +43,11 @@ export class NewTileElement extends LitElement {
         this.displayNewTile='none';
 
     }
+    updated(changedProperties) {
+        changedProperties.forEach((oldValue, propName) => {
+            console.log(`${propName} changed. oldValue: ${oldValue}`);
+        });
+    }
 
     onTileDataChange(type,changedData){
 
@@ -54,7 +59,9 @@ export class NewTileElement extends LitElement {
                 changedData:changedData
             }
         });
+        this.clearData();
         this.dispatchEvent(newTileEvent);
+
     }
 
 
@@ -77,20 +84,31 @@ export class NewTileElement extends LitElement {
         }
         this.onTileDataChange('newTile',changedData);
     }
+    clearData(){
+        this.tileTitle='';
+        this.tileComments='';
+        this.tileDetails='';
+        this.imageData='';
+        this.newImagePath='';
+    }
     mapInput(e){
         let inputTmp=e.target;
         if(inputTmp.id==='tileTitle'){
-            this.tileTitle=inputTmp.value
+            this.tileTitle=inputTmp.value;
         }
         else if(inputTmp.id==='tileComments'){
-            this.tileComments=inputTmp.value
+            this.tileComments=inputTmp.value;
 
         }
         else if(inputTmp.id==='tileDetails'){
-            this.tileDetails=inputTmp.value
+            this.tileDetails=inputTmp.value;
 
         }
         console.log(e.target);
+    }
+
+    getTileTitle(){
+        return html`<input id="tileTitle" class="input-field" @change="${this.mapInput}" .value="${this.tileTitle}" type="text" placeholder="Title" name="usrnm">`;
     }
 
     /**
@@ -110,12 +128,13 @@ export class NewTileElement extends LitElement {
           <h2>Add Story</h2>
           <div class="input-container">
             <i class="icon"><iron-icon  icon="icons:folder-shared"></iron-icon></i>
-            <input id="tileTitle" class="input-field" @change="${this.mapInput}" value="${this.tileTitle}" type="text" placeholder="Title" name="usrnm">
+            ${this.getTileTitle()}
+
           </div>
 
           <div class="input-container">
             <i class="icon"><iron-icon @click=""  icon="icons:lightbulb-outline"></iron-icon></i>
-            <input id="tileComments" @change="${this.mapInput}" class="input-field" type="text" value="${this.tileComments}" placeholder="Summery" name="email">
+            <input id="tileComments" @change="${this.mapInput}" class="input-field" type="text" .value="${this.tileComments}" placeholder="Summery" name="email">
           </div>
 
           <div class="input-container ">
@@ -138,7 +157,7 @@ export class NewTileElement extends LitElement {
 
           <div class="container1">
             <label for="subject">Details</label>
-            <textarea class="mytextarea" id="tileDetails" @change="${this.mapInput}" value="${this.tileDetails}" id="subject" name="subject" placeholder="Write whatever you want" style="height:200px"></textarea>
+            <textarea class="mytextarea" id="tileDetails" @change="${this.mapInput}" .value="${this.tileDetails}" id="subject" name="subject" placeholder="Write whatever you want" style="height:200px"></textarea>
           </div>
 
           <button type="button" @click="${this.tileAddNewStory}" class="btn">Add</button>

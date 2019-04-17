@@ -127,8 +127,6 @@ export class BoardElement extends LitElement {
 
         </header-element>
       </div>
-
-
       <menu-element menuList="${this.menuList}"  displayMenu="${this.displayMenu}" @menu-event="${this.menuChange}">
             <p id="menuLoader"></p>
               <script type="text/javascript">
@@ -138,10 +136,12 @@ export class BoardElement extends LitElement {
                 Could not render the custom element. Check that JavaScript is enabled.
             </noscript>
       </menu-element>
+
+
       <div class="w3-container">
         <div class="w3-cell-row" style="height: 84px"></div>
-        <div>
-        <new-tile-element displayNewTile="${this.displayNewTile}" @tile-event="${this.tileChange}"></new-tile-element>
+        <div style="display: ${this.displayNewTile}">
+        <new-tile-element tileTitle="" displayNewTile="${this.displayNewTile}" @tile-event="${this.tileChange}"></new-tile-element>
         </div>
       ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element @tile-event="${this.tileChange}" like="${j.like}" tileRating="${j.rating}" tilePicture="${j.picture}" tileId="${j.id}" tileData="${JSON.stringify(j)}" tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
 
