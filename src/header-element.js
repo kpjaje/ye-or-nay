@@ -89,8 +89,8 @@ export class HeaderElement extends LitElement {
         </style>
 
             <header class="w3-top w3-bar w3-theme">
-              <button class="w3-bar-item w3-button w3-xxxlarge w3-hover-theme" @click="${this.openSidebar}">&#9776;</button>
-              <h1 class="w3-bar-item">${this.header.name}</h1>
+              <button class="w3-bar-item w3-button w3-xxlarge w3-hover-theme" @click="${this.openSidebar}">&#9776;</button>
+              <h3 class="w3-bar-item">${this.header.name}</h3>
               <div id="addStoryId" class="addStory">
               <iron-icon @click="${this.displayNewTile}"  icon="icons:add-circle-outline"></iron-icon>
               </div>
