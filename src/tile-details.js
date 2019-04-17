@@ -19,7 +19,9 @@ export class TileDetails extends LitElement {
     static get properties() {
         return {
             tileDetails: {type:String},
-            tileComments:{type:Array}
+            tileComments:{type:Array},
+            newComment:{type:String},
+            showAddComent:{type:String},
         };
     }
 
@@ -41,8 +43,37 @@ export class TileDetails extends LitElement {
             {user:'Sam Silly',comment:'If you use your real name, you’ll be taken more seriously and people won’t think you may be trying to hide something.',gender:'M'}
 
         ];
+        this.tileComments.splice(0,Math.floor(Math.random() * 6));
+        this.newComment='';
+        this.showAddComent='none';
         // Initialize properties
 
+
+
+    }
+
+    tileAddNewComment(){
+        this.tileComments.unshift({
+            user:'Kris Jaje',
+            comment:this.newComment
+        });
+        this.newComment='';
+    }
+
+    mapInput(e){
+        let inputTmp=e.target;
+        if(inputTmp.id==='tileNewComment'){
+            this.newComment=inputTmp.value;
+        }
+
+    }
+    toggleView(){
+        if(this.showAddComent==='none'){
+            this.showAddComent='block';
+        }
+        else{
+            this.showAddComent='none';
+        }
     }
 
     /**
@@ -63,7 +94,13 @@ export class TileDetails extends LitElement {
         <div class="detailsDiv">
             <span>${this.tileDetails}</span>
         </div>
-        <label>Comments:</label>
+        <label><div style="padding: 10px">Comments: <iron-icon @click="${this.toggleView}" style="float: right;color: cadetblue" icon="icons:question-answer"></iron-icon></div></label>
+        <div style="display: ${this.showAddComent}" class="container1">
+            <textarea class="mytextarea" id="tileNewComment" @change="${this.mapInput}" .value="${this.newComment}"  name="comment" placeholder="Write comment" style="height:200px"></textarea>
+            <button type="button" @click="${this.tileAddNewComment}" class="btn">Add</button>
+        </div>
+
+
         ${this.tileComments? html`${this.tileComments.map(i =>html`<div class="comments-container"><div class="chip"><div><img src="${i.gender==='M' ? 'manifest/img_avatarS.png' : 'manifest/img_avatarF.png'}" alt="Person" width="96" height="96">${i.user}</div></div><div class="comments">${i.comment}</div></div>`)}`:html``}
 
         </div>
