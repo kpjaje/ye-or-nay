@@ -22,6 +22,7 @@ export class TileDetails extends LitElement {
             tileComments:{type:Array},
             newComment:{type:String},
             showAddComent:{type:String},
+            user:{type:Object}
         };
     }
 
@@ -54,10 +55,12 @@ export class TileDetails extends LitElement {
 
     tileAddNewComment(){
         this.tileComments.unshift({
-            user:'Kris Jaje',
-            comment:this.newComment
+            user:this.user.name,
+            comment:this.newComment,
+            gender:this.user.gender
         });
         this.newComment='';
+        this.showAddComent='none';
     }
 
     mapInput(e){

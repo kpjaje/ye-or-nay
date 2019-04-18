@@ -20,7 +20,8 @@ export class MenuElement extends LitElement {
         return {
             menuList: {type:Array},
             selectedCategory:{type:String},
-            displayMenu:{type:String}
+            displayMenu:{type:String},
+            userName:{type:String}
         };
     }
 
@@ -83,6 +84,7 @@ export class MenuElement extends LitElement {
               <br>
               <div class="w3-padding w3-center">
                 <img class="w3-circle" src="manifest/userAvatar.jpg" alt="avatar" style="width:75%">
+                <div style="text-align: center;padding: 5px"><strong>${this.userName}</strong></div>
               </div>
             </div>
 

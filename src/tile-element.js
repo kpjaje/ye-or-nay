@@ -26,7 +26,8 @@ export class TileElement extends LitElement {
             tileRating:{type:Number},
             tilePicture:{type:String},
             visibleDetails:{type:String},
-            tileDetails:{type:String}
+            tileDetails:{type:String},
+            user:{type:Object}
         };
     }
 
@@ -149,7 +150,7 @@ export class TileElement extends LitElement {
           </div>
         </div>
         <div style="display: ${this.visibleDetails}" class="w3-cell-row" >
-         <tile-details tileDetails="${this.tileDetails}"></tile-details>
+         <tile-details  user="${JSON.stringify(this.user)}" tileDetails="${this.tileDetails}"></tile-details>
         </div>
         <hr>
 

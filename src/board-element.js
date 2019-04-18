@@ -24,7 +24,8 @@ export class BoardElement extends LitElement {
             displayMenu:{type:Boolean},
             menuList: {type:String},
             newTileFlag:{type:Boolean},
-            displayNewTile:{type:String}
+            displayNewTile:{type:String},
+            user:{type:Object}
         };
     }
 
@@ -127,7 +128,7 @@ export class BoardElement extends LitElement {
 
         </header-element>
       </div>
-      <menu-element menuList="${this.menuList}"  displayMenu="${this.displayMenu}" @menu-event="${this.menuChange}">
+      <menu-element userName="${this.user.name}" menuList="${this.menuList}"  displayMenu="${this.displayMenu}" @menu-event="${this.menuChange}">
             <p id="menuLoader"></p>
               <script type="text/javascript">
                 document.getElementById('menuLoader').innerHTML='Loading...';
@@ -143,9 +144,9 @@ export class BoardElement extends LitElement {
         <div style="display: ${this.displayNewTile}">
         <new-tile-element tileTitle="" displayNewTile="${this.displayNewTile}" @tile-event="${this.tileChange}"></new-tile-element>
         </div>
-      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element @tile-event="${this.tileChange}" like="${j.like}" tileRating="${j.rating}" tileDetails="${j.details}" tilePicture="${j.picture}" tileId="${j.id}" tileData="${JSON.stringify(j)}" tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
+      ${this.content.topicList && this.content.category!=='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.filter(i => i.title===this.content.category).map(j=> html`<tile-element user="${JSON.stringify(this.user)}" @tile-event="${this.tileChange}" like="${j.like}" tileRating="${j.rating}" tileDetails="${j.details}" tilePicture="${j.picture}" tileId="${j.id}" tileData="${JSON.stringify(j)}" tileComments="${j.comments}" tileTitle="${j.title}" ></tile-element>`)}</ul>` : html``}
 
-      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" @tile-event="${this.tileChange}" like="${i.like}" tileId="${i.id}" tileRating="${i.rating}" tileDetails="${i.details}" tilePicture="${i.picture}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
+      ${this.content.topicList && this.content.category==='All' ? html`<ul style="padding-right: 5px;padding-left: 5px">${this.content.topicList.map(i =>   html`<tile-element tileComments="${i.comments}" user="${JSON.stringify(this.user)}" @tile-event="${this.tileChange}" like="${i.like}" tileId="${i.id}" tileRating="${i.rating}" tileDetails="${i.details}" tilePicture="${i.picture}" tileTitle="${i.title}" ></tile-element>`)}</ul>` : html``}
       <div class="w3-cell-row" style="height: 32px"></div>
       </div>
       <footer-element>

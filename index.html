@@ -27,6 +27,8 @@
     WebComponents.waitFor(async () => {
       import('./node_modules/@polymer/iron-icon/iron-icon.js');
       import('./node_modules/@polymer/iron-icons/iron-icons.js');
+      import('./src/yea-or-nay.js');
+      import('./src/login-element.js');
       import('./src/board-element.js');
       import('./src/header-element.js');
       import('./src/menu-element.js');
@@ -46,7 +48,7 @@
   <!-- Change stuff here for your app -->
   <meta name="description" content="yea-or-nay">
   <meta name="theme-color" content="#ffffff">
-  <title>ye-or-nay</title>
+  <title>yea-or-nay</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="./manifest.json">
@@ -55,18 +57,10 @@
   <meta charset="UTF-8">
 </head>
 <body style="margin: 0px">
-
+  <yea-or-nay></yea-or-nay>
   <!-- 
     To configure starting state of the checkbox from markup: 
     <start-lit-element pie="true"> 
   -->
-  <board-element>
-    <p id="myBoard"></p>
-    <script type="text/javascript">
-      document.getElementById('myBoard').innerHTML='Loading...';
-    </script>
-    <noscript>
-      Could not render the custom element. Check that JavaScript is enabled.
-    </noscript>
-  </board-element>
+
 </body>

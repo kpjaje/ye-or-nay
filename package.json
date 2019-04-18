@@ -1,9 +1,9 @@
 {
-  "name": "ye-or-nay",
+  "name": "yea-or-nay",
   "version": "1.0.0",
-  "description": "ye-or-nay",
+  "description": "yea-or-nay",
   "repository": "https://github.com/PolymerLabs/start-lit-element.git",
-  "main": "start-lit-element.js",
+  "main": "board-element.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
